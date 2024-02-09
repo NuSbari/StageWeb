@@ -1,0 +1,10 @@
+@StageWeb_HostAddress = http://localhost:5039
+
+GET {{StageWeb_HostAddress}}/book/ 
+Accept: application/json
+
+###
+
+GET {{StageWeb_HostAddress}}/book/2
+Accept: application/json
+###
