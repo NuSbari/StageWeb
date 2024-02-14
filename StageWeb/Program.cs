@@ -7,7 +7,7 @@ var connectionString = builder.Configuration.GetConnectionString("LibraryDb") ??
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSqlite<LibraryDb>(connectionString);
-builder.Services.AddSwaggerGen(c =>
+/*builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
     {
@@ -17,12 +17,16 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Library API V1");
 });
+*/
+
+var app = builder.Build();
+
+app.UseStaticFiles();
 
 app.MapGet("/books", async (LibraryDb db) =>
 {
