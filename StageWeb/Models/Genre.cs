@@ -1,4 +1,6 @@
-﻿namespace StageWeb.Models
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace StageWeb.Models
 {
     public class Genre
     {

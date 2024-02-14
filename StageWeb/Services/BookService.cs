@@ -8,12 +8,7 @@ namespace StageWeb.Services
         static BookService()
         {
             Books = new List<Book>
-            {
-                
-                new Book { Id = 1, Title = "The Hobbit", IdGenre = 1, IdBookshelf = 1, IsAvailable = true },
-                new Book { Id = 2, Title = "The Lord of the Rings", IdGenre = 1, IdBookshelf = 1, IsAvailable = true },
-                new Book { Id = 3, Title = "The Silmarillion", IdGenre = 1, IdBookshelf = 1, IsAvailable = true }
-                
+            { 
             };
         }
         public static List<Book> GetAll() => Books;

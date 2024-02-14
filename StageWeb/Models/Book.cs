@@ -1,4 +1,6 @@
-﻿namespace StageWeb.Models
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace StageWeb.Models
 {
     public class Book
     {
@@ -7,8 +9,6 @@
         public int IdGenre { get; set; }
         public int IdBookshelf { get; set; }
         public bool IsAvailable { get; set; }
-        public BookShelf BookShelf { get; set; }
-        public Genre Genre { get; set; }
     }
 }
     
