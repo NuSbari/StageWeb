@@ -1,51 +1,54 @@
 ﻿using StageWeb.Models;
-using StageWeb.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 namespace StageWeb.Controllers
 {
     [ApiController]
-    [Route("Book")]
+    [Route("[controller]")]
     public class Bookcontroller : ControllerBase
     {
-        [HttpGet]
-        public ActionResult<List<Book>> GetAll() => BookService.GetAll();
-
-        [HttpGet("{id}")]
-        public ActionResult<Book> Get(int id)
+        private readonly LibraryDb _db;
+        public Bookcontroller(LibraryDb db)
         {
-            var book = BookService.Get(id);
-            if (book is null)
-                return NotFound();
-            return book;
+            _db = db;
+        }
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok(_db.Books);
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult Get(int id)
+        {
+            return Ok(_db.Books.Find(id));
         }
 
         [HttpPost]
-        public IActionResult Add(Book book)
+        public IActionResult Post(Book book)
         {
-            BookService.Add(book);
-            return CreatedAtAction(nameof(Add), new { id = book.Id }, book);
+            _db.Books.Add(book);
+            _db.SaveChanges();
+            return Ok(book);
         }
 
-        [HttpDelete("{id}")]
+        [HttpPut]
+        public IActionResult Put(Book book)
+        {
+            _db.Books.Update(book);
+            _db.SaveChanges();
+            return Ok(book);
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
         public IActionResult Delete(int id)
         {
-            var book = BookService.Get(id);
-            if (book is null)
-                return NotFound();
-            BookService.Delete(id);
-            return NoContent();
-        }
-
-        [HttpPut("{id}")]
-        public IActionResult Update(int id, Book book)
-        {
-            if (id != book.Id)
-                return BadRequest();
-            var existingBook = BookService.Get(id);
-            if (existingBook is null)
-                return NotFound();
-            BookService.Update(book);
-            return NoContent();
+            var book = _db.Books.Find(id);
+            _db.Books.Remove(book);
+            _db.SaveChanges();
+            return Ok();
         }
     }
 }

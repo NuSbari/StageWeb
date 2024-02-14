@@ -1,52 +1,55 @@
 ﻿using StageWeb.Models;
-using StageWeb.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 
 namespace StageWeb.Controllers
 {
     [ApiController]
-    [Route("Bookshelf")]
+    [Route("[controller]")]
     public class BookshelfController : ControllerBase
     {
-        [HttpGet]
-        public ActionResult<List<BookShelf>> GetAll() => BookShelfServices.GetAll();
-
-        [HttpGet("{id}")]
-        public ActionResult<BookShelf> Get(int id)
+        private readonly LibraryDb _db;
+        public BookshelfController(LibraryDb db)
         {
-            var bookShelf = BookShelfServices.Get(id);
-            if (bookShelf is null)
-                return NotFound();
-            return bookShelf;
+            _db = db;
+        }
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok(_db.BookShelves);
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult Get(int id)
+        {
+            return Ok(_db.BookShelves.Find(id));
         }
 
         [HttpPost]
-        public IActionResult Add(BookShelf bookShelf)
+        public IActionResult Post(BookShelf bookshelf)
         {
-            BookShelfServices.Add(bookShelf);
-            return CreatedAtAction(nameof(Add), new { id = bookShelf.Id }, bookShelf);
+            _db.BookShelves.Add(bookshelf);
+            _db.SaveChanges();
+            return Ok(bookshelf);
         }
 
-        [HttpDelete("{id}")]
+        [HttpPut]
+        public IActionResult Put(BookShelf bookshelf)
+        {
+            _db.BookShelves.Update(bookshelf);
+            _db.SaveChanges();
+            return Ok(bookshelf);
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
         public IActionResult Delete(int id)
         {
-            var bookShelf = BookShelfServices.Get(id);
-            if (bookShelf is null)
-                return NotFound();
-            BookShelfServices.Delete(id);
-            return NoContent();
-        }
-
-        [HttpPut("{id}")]
-        public IActionResult Update(int id, BookShelf bookShelf)
-        {
-            if (id != bookShelf.Id)
-                return BadRequest();
-            var existingBookShelf = BookShelfServices.Get(id);
-            if (existingBookShelf is null)
-                return NotFound();
-            BookShelfServices.Update(bookShelf);
-            return NoContent();
+            var bookshelf = _db.BookShelves.Find(id);
+            _db.BookShelves.Remove(bookshelf);
+            _db.SaveChanges();
+            return Ok();
         }
     }
 }

@@ -1,52 +1,55 @@
 ﻿using StageWeb.Models;
-using StageWeb.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 
 namespace StageWeb.Controllers
 {
     [ApiController]
-    [Route("Genre")]
+    [Route("[controller]")]
     public class GenreController : ControllerBase
     {
-        [HttpGet]
-        public ActionResult<List<Genre>> GetAll() => GenreService.GetAll();
-
-        [HttpGet("{id}")]
-        public ActionResult<Genre> Get(int id)
+        private readonly LibraryDb _db;
+        public GenreController(LibraryDb db)
         {
-            var genre = GenreService.Get(id);
-            if (genre is null)
-                return NotFound();
-            return genre;
+            _db = db;
+        }
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok(_db.Genres);
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult Get(int id)
+        {
+            return Ok(_db.Genres.Find(id));
         }
 
         [HttpPost]
-        public IActionResult Add(Genre genre)
+        public IActionResult Post(Genre genre)
         {
-            GenreService.Add(genre);
-            return CreatedAtAction(nameof(Add), new { id = genre.Id }, genre);
+            _db.Genres.Add(genre);
+            _db.SaveChanges();
+            return Ok(genre);
         }
 
-        [HttpDelete("{id}")]
+        [HttpPut]
+        public IActionResult Put(Genre genre)
+        {
+            _db.Genres.Update(genre);
+            _db.SaveChanges();
+            return Ok(genre);
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
         public IActionResult Delete(int id)
         {
-            var genre = GenreService.Get(id);
-            if (genre is null)
-                return NotFound();
-            GenreService.Delete(id);
-            return NoContent();
-        }
-
-        [HttpPut("{id}")]
-        public IActionResult Update(int id, Genre genre)
-        {
-            if (id != genre.Id)
-                return BadRequest();
-            var existingGenre = GenreService.Get(id);
-            if (existingGenre is null)
-                return NotFound();
-            GenreService.Update(genre);
-            return NoContent();
+            var genre = _db.Genres.Find(id);
+            _db.Genres.Remove(genre);
+            _db.SaveChanges();
+            return Ok();
         }
     }
 }
