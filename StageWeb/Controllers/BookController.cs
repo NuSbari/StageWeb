@@ -50,5 +50,12 @@ namespace StageWeb.Controllers
             _db.SaveChanges();
             return Ok();
         }
+
+        [HttpGet]
+        [Route("search")]
+        public IActionResult Search(string title)
+        {
+            return Ok(_db.Books.FromSqlRaw("SELECT * FROM Books WHERE Title LIKE '%' || {0} || '%'", title));
+        }
     }
 }

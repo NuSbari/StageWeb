@@ -1,1 +1,41 @@
-﻿
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Libreria</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link href="style.css" rel="stylesheet" />
+    <script defer type="text/javascript" src="script.js"></script>
+</head>
+<body>
+<h1>LIBRERIA</h1>
+    <div id="pulsante_cerca">
+        <button onclick="GetData()">mostra tutti i libri</button>
+    </div>
+    <div id="tabella" hidden>
+        <table id="booksTable" class="booksTable">
+            <tr>
+                <th>Titolo</th>
+                <th>Genere</th>
+                <th>Libreria</th>
+            </tr>
+        </table>
+    </div>
+    <div id="pulsante_indietro">
+        <button onclick="GoBack()">Torna Indietro</button>
+    </div>
+    <div id="pulsante_cerca_nome">
+        <button onclick="GetDataByName()">Cerca con nome</button>
+        <form id="barra_ricerca_nome" hidden>
+            <input type="search" id="searchName" name="searchName" placeholder="Cerca per nome">
+        </form>
+    </div>
+    <div id="pulsante_aggiungi">
+        <button onclick="AddBook()">Aggiungi Libro</button>
+    </div>
+
+
+</body>
+</html>
