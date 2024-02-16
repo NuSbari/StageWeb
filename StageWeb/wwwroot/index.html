@@ -5,12 +5,11 @@
     <title>Libreria</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link href="style.css" rel="stylesheet" />
-    <script defer type="text/javascript" src="script.js"></script>
+<script defer src="script.js"></script>
 </head>
 <body>
-<h1>LIBRERIA</h1>
+    <h1>LIBRERIA</h1>
     <div id="pulsante_cerca">
         <button onclick="GetData()">mostra tutti i libri</button>
     </div>
@@ -18,6 +17,7 @@
         <table id="booksTable" class="booksTable">
             <tr>
                 <th>Titolo</th>
+                <th>Id</th>
                 <th>Genere</th>
                 <th>Libreria</th>
             </tr>
@@ -26,16 +26,28 @@
     <div id="pulsante_indietro">
         <button onclick="GoBack()">Torna Indietro</button>
     </div>
-    <div id="pulsante_cerca_nome">
-        <button onclick="GetDataByName()">Cerca con nome</button>
-        <form id="barra_ricerca_nome" hidden>
-            <input type="search" id="searchName" name="searchName" placeholder="Cerca per nome">
+    <div id="pulsante_cerca_id">
+        <button onclick="MostraCercaNome()">Cerca con id</button>
+        <form id="barra_ricerca_id" hidden>
+            <input type="search" id="searchId" name="searchId" placeholder="Cerca per id">
+<button id="cerca_id" onclick="SearchById()">Cerca</button>
         </form>
     </div>
     <div id="pulsante_aggiungi">
-        <button onclick="AddBook()">Aggiungi Libro</button>
+        <button onclick="MostraAggiungi()">Mostra Form Aggiungi Libro</button>
+        <form id="barra_aggiungi_libro" hidden>
+            <input type="text" id="title" name="title" placeholder="Titolo">
+            <input type="text" id="genre" name="genre" placeholder="Genere">
+            <input type="text" id="library" name="library" placeholder="Libreria">
+            <button id="pulsante_aggiungi" onclick="AddBook()">Aggiungi Libro</button>
+        </form>
     </div>
-
-
+    <div id="pulsante_elimina_libro">
+        <button onclick="MostraElimina()">Mostra Form Elimina Libro</button>
+        <form id="barra_elimina_libro" hidden>
+            <input type="search" id="searchId" name="searchId" placeholder="Cerca per Id">
+            <button id="elimina_libro" onclick="DeleteBook()">Elimina Libro</button>
+        </form>
+    </div>
 </body>
 </html>

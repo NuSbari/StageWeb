@@ -30,9 +30,8 @@ button {
 
 button:hover{
     opacity: 0.8;
-    cursor: pointer;
 }
 
-#pulsante_cerca, #pulsante_indietro, #pulsante_cerca_nome{
+#pulsante_cerca, #pulsante_indietro, #pulsante_cerca_id, #pulsante_aggiungi, #pulsante_elimina_libro {
     text-align: center;
 }
